@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Desacelera — Cuide da mente. Relaxe a mandíbula.</title>
+<meta name="description" content="Desacelera: ferramenta educativa e preventiva sobre estresse, apertamento dentário e bem-estar para estudantes do 3º ano do Ensino Médio. Projeto de Apoio ao Empreendedorismo Social — PAES — USCS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ===== Design tokens (from reference video) ===== */
+  --cream:#FAF6EF;
+  --cream-deep:#F3EEE2;
+  --card:#FFFFFF;
+  --card-soft:#F6F3ED;
+
+  --lilac:#8B7FC9;
+  --lilac-deep:#6E60B0;
+  --lilac-pale:#D9D3F0;
+
+  --sky:#BFE1EA;
+  --sky-deep:#9BCBD8;
+  --sky-pale:#E4F3F6;
+
+  --mint:#8FD1B0;
+  --mint-deep:#63B992;
+  --mint-pale:#D6F0E2;
+
+  --ink:#332F4B;
+  --ink-soft:#645E82;
+  --ink-faint:#9A93B5;
+
+  --green:#6FCF97;
+  --yellow:#F5D547;
+  --orange:#F2A65A;
+  --red:#EB6F6F;
+
+  --shadow-sm: 0 2px 10px rgba(90, 75, 130, 0.08);
+  --shadow-md: 0 8px 24px rgba(90, 75, 130, 0.12);
+  --shadow-lg: 0 16px 40px rgba(90, 75, 130, 0.16);
+
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+  --radius-pill: 999px;
+
+  --font-display: 'Baloo 2', 'Nunito', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+
+  --step: 0;
+  --fs-scale: 1;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+html,body{margin:0;padding:0;}
+body{
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: calc(16px * var(--fs-scale));
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{
+  font-family: var(--font-display);
+  color: var(--ink);
+  margin:0 0 .4em 0;
+  font-weight:700;
+  line-height:1.2;
+}
+p{margin:0 0 1em 0;}
+a{color:inherit;}
+button{font-family:inherit;}
+img,svg{max-width:100%;display:block;}
+
+/* Skip link */
+.skip-link{
+  position:absolute; left:-999px; top:0; background:var(--lilac-deep); color:#fff;
+  padding:12px 20px; border-radius:0 0 12px 0; z-index:999; font-weight:700;
+}
+.skip-link:focus{left:0;}
+
+/* Focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible{
+  outline:3px solid var(--lilac-deep);
+  outline-offset:3px;
+  border-radius:8px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
+
+.visually-hidden{
+  position:absolute!important; width:1px;height:1px; padding:0;margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* ================= App shell ================= */
+.app{
+  max-width:560px;
+  margin:0 auto;
+  min-height:100vh;
+  position:relative;
+  background: var(--cream);
+  padding-bottom: 96px;
+}
+@media (min-width: 900px){
+  .app{ max-width: 1180px; padding-bottom: 40px; }
+}
+
+/* ================= Top bar ================= */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 18px 20px 6px;
+  position:relative; z-index:5;
+}
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand-mark{
+  width:38px;height:38px;border-radius:50%;
+  background: radial-gradient(circle at 35% 30%, var(--mint-pale), var(--mint) 70%);
+  border:2px solid var(--mint-deep);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.brand-mark span{
+  width:14px;height:14px;border-radius:50%;border:2px solid var(--lilac-deep);
+}
+.brand-name{
+  font-family:var(--font-display); font-weight:800; font-size:1.25rem; color:var(--lilac-deep);
+  letter-spacing:.2px;
+}
+.fontsize-ctrl{ display:flex; gap:8px; }
+.fontsize-ctrl button{
+  width:34px;height:34px;border-radius:50%;
+  border:none; background:var(--sky-pale); color:var(--lilac-deep);
+  font-size:1rem; font-weight:800; cursor:pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, background .15s ease;
+}
+.fontsize-ctrl button:hover{ background:var(--sky); transform: translateY(-1px); }
+
+/* Desktop nav */
+.desktop-nav{ display:none; }
+@media (min-width:900px){
+  .desktop-nav{
+    display:flex; gap:6px; background:var(--card); border-radius:var(--radius-pill);
+    padding:6px; box-shadow: var(--shadow-sm);
+  }
+  .desktop-nav button{
+    border:none; background:transparent; padding:10px 18px; border-radius:var(--radius-pill);
+    font-weight:700; color:var(--ink-soft); cursor:pointer; font-size:.95rem;
+    display:flex; align-items:center; gap:8px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .desktop-nav button.active{ background:var(--lilac); color:#fff; }
+  .desktop-nav button:hover:not(.active){ background:var(--cream-deep); }
+}
+
+/* ================= Decorative blobs ================= */
+.blob{
+  position:absolute; border-radius:50%; z-index:0; pointer-events:none;
+  filter: blur(0px);
+}
+.blob-mint{ background: linear-gradient(135deg, var(--mint-pale), var(--mint)); opacity:.55; }
+.blob-lilac{ background: linear-gradient(135deg, var(--lilac-pale), var(--lilac)); opacity:.4; }
+
+/* ================= Main content ================= */
+main{ position:relative; z-index:2; padding: 4px 20px 24px; }
+@media (min-width:900px){ main{ padding: 24px 8px 24px; } }
+
+.page{ display:none; animation: fadeSlideIn .35s ease; }
+.page.active{ display:block; }
+@keyframes fadeSlideIn{
+  from{ opacity:0; transform: translateY(8px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+.eyebrow{
+  font-weight:800; color:var(--mint-deep); text-transform:uppercase; letter-spacing:1.2px;
+  font-size:.72rem; margin-bottom:8px; display:block;
+}
+.page-title{ font-size:1.7rem; margin-bottom:6px; }
+.page-lede{ color:var(--ink-soft); font-size:1.02rem; max-width:60ch; }
+
+/* ================= Cards & buttons ================= */
+.card{
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+.card-soft{ background: var(--card-soft); }
+
+.btn{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; border:none; cursor:pointer;
+  padding: 17px 22px; border-radius: var(--radius-pill);
+  font-family:var(--font-display); font-weight:700; font-size:1rem;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  text-align:center;
+}
+.btn:hover{ transform: translateY(-1px); filter:brightness(1.03); }
+.btn:active{ transform: translateY(0); }
+.btn-icon{ font-size:1.15em; line-height:1; }
+
+.btn-primary{ background: linear-gradient(135deg, var(--lilac), var(--lilac-deep)); color:#fff; box-shadow: 0 8px 20px rgba(110,96,176,.35); }
+.btn-secondary{ background: linear-gradient(135deg, var(--sky-pale), var(--sky)); color: var(--ink); }
+.btn-mint{ background: linear-gradient(135deg, var(--mint-pale), var(--mint)); color: var(--ink); }
+.btn-ghost{
+  background: var(--card); color: var(--ink);
+  justify-content:space-between; box-shadow: var(--shadow-sm);
+  font-family: var(--font-body); font-weight:700;
+}
+.btn-ghost .chev{ color: var(--ink-faint); font-family:var(--font-display); }
+.btn-outline{
+  background:transparent; border:2px solid var(--lilac-pale); color: var(--lilac-deep);
+}
+.btn-block-stack{ display:flex; flex-direction:column; gap:12px; margin: 18px 0; }
+.btn[disabled]{ opacity:.5; cursor:not-allowed; transform:none; }
+
+.btn-row{ display:flex; gap:10px; }
+.btn-row .btn{ flex:1; }
+
+.link-btn{
+  background:none;border:none;color:var(--lilac-deep);font-weight:800;cursor:pointer;
+  text-decoration:underline; padding:8px; font-family:var(--font-body);
+}
+
+/* option pill (questionnaire / choices) */
+.option-list{ display:flex; flex-direction:column; gap:12px; margin-top:22px; }
+.option{
+  width:100%; text-align:left; border:2px solid transparent;
+  background: var(--card-soft); border-radius: var(--radius-md);
+  padding: 16px 20px; font-size:1rem; font-weight:700; color:var(--ink);
+  cursor:pointer; transition: all .15s ease;
+}
+.option:hover{ background:#EFEAFB; }
+.option.selected{ background: var(--lilac-pale); border-color: var(--lilac); color:var(--lilac-deep); }
+
+/* Section spacing */
+.section{ margin-top: 26px; }
+.section-title{ font-size:1.15rem; margin-bottom:12px; }
+
+/* Grid of cards */
+.grid-2{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width:640px){ .grid-2{ grid-template-columns:1fr 1fr; } }
+@media (min-width:900px){ .grid-2{ grid-template-columns:1fr 1fr 1fr; } }
+
+.mini-card{
+  background:var(--card); border-radius:var(--radius-md); padding:18px;
+  box-shadow: var(--shadow-sm); cursor:pointer; border:none; text-align:left; width:100%;
+  transition: transform .15s ease, box-shadow .15s ease;
+  display:flex; flex-direction:column; gap:6px;
+}
+.mini-card:hover{ transform:translateY(-2px); box-shadow: var(--shadow-md); }
+.mini-card .mc-icon{ font-size:1.6rem; }
+.mini-card h4{ font-size:1rem; margin:0; }
+.mini-card p{ font-size:.88rem; color:var(--ink-soft); margin:0; }
+
+/* Badge */
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  background: var(--mint-pale); color:var(--mint-deep); font-weight:800;
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.6px;
+  padding:8px 14px; border-radius: var(--radius-pill); margin-bottom:14px;
+}
+
+/* ================= Bottom nav (mobile) ================= */
+.bottom-nav{
+  position:fixed; left:0; right:0; bottom:0; z-index:20;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(90,75,130,.08);
+  display:flex; justify-content:space-around; align-items:center;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+  max-width:560px; margin:0 auto;
+}
+@media (min-width:900px){ .bottom-nav{ display:none; } }
+.bottom-nav button{
+  background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px;
+  color: var(--ink-faint); font-size:.68rem; font-weight:700; cursor:pointer; padding:6px 8px;
+  flex:1; border-radius:12px;
+}
+.bottom-nav button .bn-icon{ font-size:1.25rem; }
+.bottom-nav button.active{ color: var(--lilac-deep); }
+
+/* ================= Footer ================= */
+footer.site-footer{
+  margin-top: 40px; padding: 22px 20px 12px; text-align:center;
+  color: var(--ink-faint); font-size:.78rem; line-height:1.7;
+  border-top: 1px solid rgba(90,75,130,.1);
+}
+footer.site-footer strong{ color: var(--ink-soft); }
+
+/* ================= Slider ================= */
+.tension-wrap{ margin-top:18px; }
+.tension-label{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; font-weight:700; }
+.tension-label b{ font-size:1.3rem; color:var(--lilac-deep); }
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%; height:10px; border-radius:6px;
+  background: linear-gradient(90deg, var(--mint) 0%, var(--yellow) 50%, var(--red) 100%);
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none; width:26px;height:26px;border-radius:50%;
+  background:#fff; border:4px solid var(--lilac-deep); cursor:pointer; box-shadow: var(--shadow-sm);
+}
+input[type=range]::-moz-range-thumb{
+  width:26px;height:26px;border-radius:50%; background:#fff; border:4px solid var(--lilac-deep); cursor:pointer;
+}
+.tension-scale{ display:flex; justify-content:space-between; font-size:.78rem; color:var(--ink-faint); margin-top:8px; }
+
+/* ================= Progress bar (questionnaire) ================= */
+.qz-progress{ height:8px; border-radius:6px; background: var(--cream-deep); overflow:hidden; margin: 14px 0 4px; }
+.qz-progress-fill{ height:100%; background: linear-gradient(90deg, var(--lilac-deep), var(--lilac)); border-radius:6px; transition: width .3s ease; }
+.qz-meta{ color: var(--ink-faint); font-weight:700; font-size:.85rem; }
+.qz-back{
+  background:none;border:none;cursor:pointer;color:var(--ink-soft); font-size:1.3rem; padding:4px 8px 4px 0;
+}
+.qz-top{ display:flex; align-items:center; gap:10px; }
+.qz-top h2{ margin:0; font-size:1.2rem; flex:1; text-align:center; }
+
+/* ================= Result page ================= */
+.result-hero{ text-align:center; padding: 30px 20px; border-radius: var(--radius-lg); }
+.result-dot{ width:64px;height:64px;border-radius:50%; margin:0 auto 16px; border:3px solid rgba(0,0,0,.15); }
+.result-hero h3{ font-size:1.3rem; }
+.result-hero p{ color: var(--ink-soft); margin:0; }
+.result-green{ background: linear-gradient(160deg, #E4F7EC, #D3F0DF); }
+.result-yellow{ background: linear-gradient(160deg, #FBF3D3, #F7ECBE); }
+.result-orange{ background: linear-gradient(160deg, #FBE7D3, #F7DCC0); }
+.result-red{ background: linear-gradient(160deg, #FBDFDF, #F6CDCD); }
+.result-green .result-dot{ background: var(--green); }
+.result-yellow .result-dot{ background: var(--yellow); }
+.result-orange .result-dot{ background: var(--orange); }
+.result-red .result-dot{ background: var(--red); }
+.info-note{
+  display:flex; gap:12px; background: var(--card-soft); border-radius: var(--radius-md);
+  padding:16px 18px; margin-top:16px; font-size:.9rem; color: var(--ink-soft);
+}
+.info-note .ic{ font-size:1.2rem; flex-shrink:0; }
+
+/* ================= Breathing circle ================= */
+.breathe-stage{ display:flex; flex-direction:column; align-items:center; padding: 20px 0 6px; }
+.breathe-outer{
+  width:240px;height:240px;border-radius:50%;
+  background: radial-gradient(circle, var(--sky-pale), var(--sky));
+  display:flex; align-items:center; justify-content:center;
+  transition: transform 1s ease;
+}
+.breathe-inner{
+  width:150px;height:150px;border-radius:50%;
+  background: radial-gradient(circle at 35% 30%, var(--mint-pale), var(--mint-deep));
+  display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff;
+  transform: scale(1); transition: transform 4s ease-in-out;
+  box-shadow: inset 0 0 30px rgba(255,255,255,.25);
+}
+.breathe-inner .phase-word{ font-family:var(--font-display); font-weight:800; font-size:1.3rem; }
+.breathe-inner .phase-count{ font-size:1.6rem; font-weight:800; margin-top:4px; }
+.breathe-phase-inhale .breathe-inner{ transform: scale(1.35); transition-duration:4s; }
+.breathe-phase-hold .breathe-inner{ transform: scale(1.35); transition-duration:2s; }
+.breathe-phase-exhale .breathe-inner{ transform: scale(1); transition-duration:6s; }
+.breathe-remaining{ margin-top:22px; color: var(--ink-soft); font-weight:700; }
+.breathe-durations{ display:flex; gap:10px; margin-top:20px; width:100%; }
+.breathe-durations button{
+  flex:1; padding:14px; border-radius: var(--radius-pill); border:2px solid var(--lilac-pale);
+  background:#fff; font-weight:800; color:var(--lilac-deep); cursor:pointer;
+}
+.breathe-durations button.active{ background: var(--lilac); color:#fff; border-color:var(--lilac); }
+
+/* ================= Jaw relax illustration ================= */
+.jaw-illustration{
+  width:170px; height:170px; margin: 0 auto 20px; position:relative;
+}
+.jaw-face{
+  width:150px;height:170px; margin:0 auto; border-radius:50% 50% 46% 46%;
+  background: linear-gradient(160deg, #FBEADB, #F6D9BE);
+  position:relative; box-shadow: var(--shadow-sm);
+}
+.jaw-face::before, .jaw-face::after{ content:""; position:absolute; width:14px;height:8px; background:var(--ink); border-radius:50%; top:62px; }
+.jaw-face::before{ left:38px; }
+.jaw-face::after{ right:38px; }
+.jaw-mouth{
+  position:absolute; left:50%; top:112px; transform:translateX(-50%);
+  width:46px; height:10px; border-radius: 0 0 20px 20px; background: var(--red); opacity:.55;
+}
+.checklist{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px; }
+.checklist li{ display:flex; gap:12px; align-items:flex-start; font-size:.95rem; }
+.checklist li .ck{
+  flex-shrink:0; width:24px;height:24px;border-radius:50%; background:var(--mint-pale); color:var(--mint-deep);
+  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.8rem; margin-top:1px;
+}
+
+/* ================= Accordion (Vestibular sem travar) ================= */
+.accordion-item{ background:var(--card); border-radius: var(--radius-md); margin-bottom:12px; box-shadow: var(--shadow-sm); overflow:hidden; }
+.accordion-head{
+  width:100%; display:flex; align-items:center; gap:12px; padding:16px 18px;
+  background:none; border:none; cursor:pointer; text-align:left; font-family:var(--font-display); font-weight:700; font-size:1rem; color:var(--ink);
+}
+.accordion-head .acc-icon{ font-size:1.3rem; }
+.accordion-head .acc-chev{ margin-left:auto; color:var(--ink-faint); transition: transform .2s ease; font-family:var(--font-body); }
+.accordion-item.open .acc-chev{ transform: rotate(180deg); }
+.accordion-body{ max-height:0; overflow:hidden; transition: max-height .25s ease; }
+.accordion-item.open .accordion-body{ max-height:400px; }
+.accordion-body-inner{ padding: 0 18px 18px 50px; color:var(--ink-soft); font-size:.92rem; }
+.accordion-body-inner ul{ margin:0; padding-left:18px; }
+.accordion-body-inner li{ margin-bottom:6px; }
+
+/* ================= Educational cards carousel ================= */
+.carousel{ display:flex; gap:14px; overflow-x:auto; padding: 6px 2px 16px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+.carousel::-webkit-scrollbar{ height:6px; }
+.carousel::-webkit-scrollbar-thumb{ background: var(--lilac-pale); border-radius:6px; }
+.fact-card{
+  flex: 0 0 78%; scroll-snap-align:start; background: var(--card);
+  border-radius: var(--radius-md); padding:20px; box-shadow: var(--shadow-sm);
+  border-left:6px solid var(--mint);
+}
+@media (min-width:640px){ .fact-card{ flex-basis:45%; } }
+@media (min-width:900px){ .fact-card{ flex-basis:30%; } }
+.fact-card p{ margin:0; font-weight:700; color:var(--ink); }
+
+/* ================= Pausa inteligente ================= */
+.duration-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; }
+.duration-card{
+  background:var(--card); border:2px solid transparent; border-radius: var(--radius-md);
+  padding:18px; text-align:center; cursor:pointer; box-shadow: var(--shadow-sm);
+}
+.duration-card.selected{ border-color: var(--lilac); background: var(--lilac-pale); }
+.duration-card .d-num{ font-family:var(--font-display); font-size:1.5rem; font-weight:800; color:var(--lilac-deep); }
+.duration-card .d-unit{ font-size:.8rem; color:var(--ink-soft); }
+
+.pause-overlay{
+  position:fixed; inset:0; z-index:100; background: linear-gradient(160deg, var(--mint-pale), var(--sky-pale));
+  display:none; align-items:center; justify-content:center; text-align:center; padding:30px;
+}
+.pause-overlay.show{ display:flex; }
+.pause-overlay-inner{ max-width:420px; }
+.pause-overlay .pe-icon{ font-size:3.4rem; margin-bottom:10px; }
+.pause-overlay h2{ font-size:1.7rem; }
+.pause-overlay p{ font-size:1.05rem; color: var(--ink-soft); }
+.pause-timer-active{
+  background:var(--card); border-radius: var(--radius-md); padding:18px; margin-top:18px; text-align:center;
+  box-shadow: var(--shadow-sm);
+}
+.pause-timer-active .pt-time{ font-family:var(--font-display); font-size:2rem; color:var(--lilac-deep); font-weight:800; }
+
+/* ================= Diário ================= */
+.field{ margin-bottom:18px; }
+.field label{ display:block; font-weight:700; margin-bottom:8px; font-size:.92rem; }
+.field select, .field input[type=number]{
+  width:100%; padding:14px 16px; border-radius: var(--radius-sm); border:2px solid var(--cream-deep);
+  background: var(--card); font-family:var(--font-body); font-size:1rem; color:var(--ink);
+}
+.chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.chip{
+  padding:10px 16px; border-radius: var(--radius-pill); border:2px solid var(--cream-deep); background:var(--card);
+  font-weight:700; font-size:.85rem; cursor:pointer; color:var(--ink-soft);
+}
+.chip.selected{ background: var(--sky); border-color:var(--sky-deep); color: var(--ink); }
+
+.chart-wrap{ margin-top:24px; }
+.bar-chart{ display:flex; align-items:flex-end; gap:8px; height:140px; padding: 0 4px; }
+.bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end; }
+.bar{ width:100%; border-radius:8px 8px 4px 4px; background: linear-gradient(180deg, var(--lilac), var(--lilac-deep)); min-height:6px; }
+.bar-col span{ font-size:.65rem; color:var(--ink-faint); font-weight:700; }
+.entry-list{ margin-top:18px; display:flex; flex-direction:column; gap:10px; }
+.entry-row{ background:var(--card); border-radius: var(--radius-sm); padding:14px 16px; display:flex; justify-content:space-between; align-items:center; box-shadow: var(--shadow-sm); font-size:.85rem; }
+.entry-row .er-date{ font-weight:800; color:var(--ink); }
+.entry-row .er-stress{ color:var(--lilac-deep); font-weight:800; }
+.empty-state{ text-align:center; padding: 30px 10px; color:var(--ink-faint); }
+.empty-state .es-icon{ font-size:2.4rem; margin-bottom:10px; }
+
+/* ================= UBS finder ================= */
+.ubs-toggle{ display:flex; gap:10px; margin-bottom:16px; }
+.ubs-toggle button{
+  flex:1; padding:12px; border-radius: var(--radius-pill); border:2px solid var(--cream-deep);
+  background:var(--card); font-weight:800; color:var(--ink-soft); cursor:pointer; font-size:.88rem;
+}
+.ubs-toggle button.active{ background: var(--sky); border-color: var(--sky-deep); color:var(--ink); }
+.cep-input{
+  width:100%; padding:16px 18px; border-radius: var(--radius-md); border:2px solid var(--cream-deep);
+  font-size:1.1rem; letter-spacing:1px; text-align:center; font-weight:700; margin-bottom:14px;
+}
+.ubs-result-card{ margin-top:18px; }
+.ubs-result-card h4{ margin-bottom:6px; }
+.safety-note{ margin-top:16px; }
+
+/* ================= Sobre ================= */
+.about-block{ margin-bottom:20px; }
+.about-block h3{ font-size:1.05rem; }
+
+/* ================= Home quick actions ================= */
+.quick-actions{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
+
+/* Toast */
+.toast{
+  position:fixed; left:50%; bottom:100px; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color:#fff; padding:12px 22px; border-radius: var(--radius-pill);
+  font-weight:700; font-size:.88rem; opacity:0; pointer-events:none; transition: all .3s ease; z-index:200;
+  box-shadow: var(--shadow-md); max-width:88vw; text-align:center;
+}
+.toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+@media (min-width:900px){ .toast{ bottom:30px; } }
+
+/* desktop two-column layout for content pages */
+@media (min-width:900px){
+  main{ display:block; }
+  .page-inner{ max-width: 760px; margin:0 auto; }
+  .app{ padding-bottom: 20px; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+
+<div class="app" id="app">
+
+  <!-- Decorative blobs -->
+  <div class="blob blob-mint" style="width:260px;height:260px; top:-40px; right:-90px;" aria-hidden="true"></div>
+  <div class="blob blob-lilac" style="width:120px;height:220px; top:210px; left:-70px;" aria-hidden="true"></div>
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><span></span></div>
+      <span class="brand-name">Desacelera</span>
+    </div>
+
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <button data-nav="inicio" class="active"><span aria-hidden="true">🏠</span> Início</button>
+      <button data-nav="diario"><span aria-hidden="true">📊</span> Diário</button>
+      <button data-nav="respirar"><span aria-hidden="true">🌬️</span> Respirar</button>
+      <button data-nav="aprender"><span aria-hidden="true">✨</span> Aprender</button>
+      <button data-nav="sobre"><span aria-hidden="true">ℹ️</span> Sobre</button>
+    </nav>
+
+    <div class="fontsize-ctrl" role="group" aria-label="Ajustar tamanho da fonte">
+      <button id="fs-dec" aria-label="Diminuir tamanho da fonte">−</button>
+      <button id="fs-inc" aria-label="Aumentar tamanho da fonte">+</button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="page-inner">
+
+    <!-- ===================== PÁGINA: INÍCIO ===================== -->
+    <section class="page active" data-page="inicio" aria-labelledby="inicio-title">
+      <span class="eyebrow">Projeto de Apoio ao Empreendedorismo Social — PAES · USCS</span>
+      <h1 id="inicio-title" class="page-title">Como você está hoje?</h1>
+      <p class="page-lede" id="home-motivational">Você não precisa estudar o tempo todo para estar avançando.</p>
+
+      <div class="card section">
+        <div class="tension-wrap">
+          <div class="tension-label">
+            <span>Nível de tensão</span>
+            <span><b id="tension-value">5</b>/10</span>
+          </div>
+          <input type="range" min="0" max="10" value="5" id="tension-slider" aria-label="Nível de tensão de 0 a 10">
+          <div class="tension-scale">
+            <span>0 · tranquilo</span>
+            <span>5 · um pouco tenso</span>
+            <span>10 · extremo</span>
+          </div>
+        </div>
+
+        <div class="btn-block-stack">
+          <button class="btn btn-primary" data-nav="respirar"><span class="btn-icon">🌬️</span> Quero relaxar</button>
+          <button class="btn btn-secondary" data-nav="vocesabia"><span class="btn-icon">✨</span> Quero saber mais</button>
+          <button class="btn btn-ghost" data-nav="pausa"><span>⏰ Configurar pausa inteligente</span><span class="chev">›</span></button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Acesso rápido</h2>
+        <div class="quick-actions">
+          <button class="mini-card" data-nav="questionario">
+            <span class="mc-icon">📝</span>
+            <h4>Responder questionário</h4>
+            <p>Perceba seus hábitos em 10 perguntas</p>
+          </button>
+          <button class="mini-card" data-nav="mandibula">
+            <span class="mc-icon">😌</span>
+            <h4>Relaxar mandíbula</h4>
+            <p>Aprenda a posição de descanso</p>
+          </button>
+          <button class="mini-card" data-nav="ubs">
+            <span class="mc-icon">🏥</span>
+            <h4>Encontrar uma UBS</h4>
+            <p>Busque atendimento perto de você</p>
+          </button>
+          <button class="mini-card" data-nav="sobre">
+            <span class="mc-icon">🎓</span>
+            <h4>Conhecer o projeto</h4>
+            <p>Sobre o Desacelera e a USCS</p>
+          </button>
+        </div>
+      </div>
+
+      <div class="card card-soft section" style="text-align:center;">
+        <span class="badge">🎓 Projeto de Apoio ao Empreendedorismo Social — PAES</span>
+        <p style="margin:0; font-weight:700; color:var(--ink-soft);">Universidade Municipal de São Caetano do Sul — USCS</p>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: QUESTIONÁRIO ===================== -->
+    <section class="page" data-page="questionario" aria-labelledby="qz-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="inicio" aria-label="Voltar para o início">←</button>
+        <h2 id="qz-title">Questionário</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+      <div class="qz-progress"><div class="qz-progress-fill" id="qz-progress-fill" style="width:10%"></div></div>
+      <p class="qz-meta" id="qz-meta">Pergunta 1 de 10</p>
+
+      <div class="card section" style="min-height:280px;">
+        <h3 id="qz-question" style="font-size:1.2rem;"></h3>
+        <div class="option-list" id="qz-options" role="group" aria-labelledby="qz-question"></div>
+      </div>
+      <p style="text-align:center; margin-top:16px;">
+        <button class="link-btn" data-nav="inicio">Cancelar e voltar ao início</button>
+      </p>
+    </section>
+
+    <!-- ===================== PÁGINA: RESULTADO ===================== -->
+    <section class="page" data-page="resultado" aria-labelledby="res-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="inicio" aria-label="Voltar para o início">←</button>
+        <h2 id="res-title">Seu resultado</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+
+      <div class="result-hero section" id="result-hero">
+        <div class="result-dot" aria-hidden="true"></div>
+        <h3 id="result-heading">—</h3>
+        <p id="result-message">—</p>
+      </div>
+
+      <div class="info-note" role="note">
+        <span class="ic" aria-hidden="true">ℹ️</span>
+        <span>Este resultado é educativo e não substitui uma avaliação profissional. Ele não representa um diagnóstico.</span>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">O que você pode fazer agora</h2>
+        <div class="btn-block-stack" style="margin-top:0;">
+          <button class="btn btn-ghost" data-nav="respirar"><span>🌬️ Fazer um exercício de respiração</span><span class="chev">›</span></button>
+          <button class="btn btn-ghost" data-nav="mandibula"><span>😌 Ver a posição de descanso da mandíbula</span><span class="chev">›</span></button>
+          <button class="btn btn-ghost" data-nav="diario"><span>📊 Registrar isso no diário</span><span class="chev">›</span></button>
+          <button class="btn btn-ghost" data-nav="ubs"><span>🏥 Encontrar atendimento profissional</span><span class="chev">›</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: RESPIRAR ===================== -->
+    <section class="page" data-page="respirar" aria-labelledby="breathe-title">
+      <span class="eyebrow">Respira</span>
+      <h1 id="breathe-title" class="page-title">Respire comigo</h1>
+      <p class="page-lede">4 segundos inspirando, 2 segundos segurando, 6 segundos expirando. Escolha por quanto tempo quer praticar.</p>
+
+      <div class="card section">
+        <div class="breathe-stage">
+          <div class="breathe-outer" id="breathe-outer">
+            <div class="breathe-inner" id="breathe-inner">
+              <span class="phase-word" id="breathe-phase-word">Pronto?</span>
+              <span class="phase-count" id="breathe-phase-count"></span>
+            </div>
+          </div>
+          <p class="breathe-remaining" id="breathe-remaining" aria-live="polite"></p>
+        </div>
+
+        <div class="breathe-durations" role="group" aria-label="Duração do exercício">
+          <button data-secs="60">1 min</button>
+          <button data-secs="120">2 min</button>
+          <button data-secs="300">5 min</button>
+        </div>
+
+        <div class="btn-block-stack">
+          <button class="btn btn-primary" id="breathe-start">Começar a respirar</button>
+          <button class="btn btn-outline" id="breathe-stop" style="display:none;">Encerrar exercício</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: PAUSA INTELIGENTE ===================== -->
+    <section class="page" data-page="pausa" aria-labelledby="pause-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="inicio" aria-label="Voltar para o início">←</button>
+        <h2 id="pause-title">Pausa inteligente</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+      <p class="page-lede section">Escolha de quanto em quanto tempo você quer um lembrete gentil para descansar a mandíbula e o corpo.</p>
+
+      <div class="duration-grid" role="group" aria-label="Escolha a duração da pausa">
+        <div class="duration-card" data-mins="30"><div class="d-num">30</div><div class="d-unit">minutos</div></div>
+        <div class="duration-card" data-mins="45"><div class="d-num">45</div><div class="d-unit">minutos</div></div>
+        <div class="duration-card" data-mins="60"><div class="d-num">60</div><div class="d-unit">minutos</div></div>
+        <div class="duration-card" data-mins="90"><div class="d-num">90</div><div class="d-unit">minutos</div></div>
+      </div>
+
+      <div class="btn-block-stack">
+        <button class="btn btn-primary" id="pause-activate">Ativar pausa inteligente</button>
+      </div>
+
+      <div class="pause-timer-active" id="pause-active-box" style="display:none;">
+        <p style="margin:0 0 6px; font-weight:700; color:var(--ink-soft);">Próxima pausa em</p>
+        <div class="pt-time" id="pause-countdown">--:--</div>
+        <p style="margin-top:10px;"><button class="link-btn" id="pause-cancel">Cancelar pausa</button></p>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: APRENDER (hub) ===================== -->
+    <section class="page" data-page="aprender" aria-labelledby="aprender-title">
+      <span class="eyebrow">Educação e prevenção</span>
+      <h1 id="aprender-title" class="page-title">Aprender</h1>
+      <p class="page-lede">Conteúdos rápidos para entender melhor o que você sente e cuidar da sua rotina de estudos.</p>
+
+      <div class="grid-2 section">
+        <button class="mini-card" data-nav="questionario">
+          <span class="mc-icon">📝</span><h4>Questionário</h4><p>Perceba sinais de tensão em 10 perguntas rápidas</p>
+        </button>
+        <button class="mini-card" data-nav="mandibula">
+          <span class="mc-icon">😌</span><h4>Relaxe sua mandíbula</h4><p>A posição de descanso, explicada de forma simples</p>
+        </button>
+        <button class="mini-card" data-nav="vocesabia">
+          <span class="mc-icon">💡</span><h4>Você sabia?</h4><p>Curiosidades sobre estresse e tensão muscular</p>
+        </button>
+        <button class="mini-card" data-nav="vestibular">
+          <span class="mc-icon">📚</span><h4>Vestibular sem travar</h4><p>Dicas por categoria para a reta final</p>
+        </button>
+        <button class="mini-card" data-nav="pausa">
+          <span class="mc-icon">⏰</span><h4>Pausa inteligente</h4><p>Lembretes para descansar corpo e mandíbula</p>
+        </button>
+        <button class="mini-card" data-nav="ubs">
+          <span class="mc-icon">🏥</span><h4>Encontrar uma UBS</h4><p>Localize atendimento de saúde perto de você</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: RELAXE SUA MANDÍBULA ===================== -->
+    <section class="page" data-page="mandibula" aria-labelledby="jaw-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="aprender" aria-label="Voltar">←</button>
+        <h2 id="jaw-title">Relaxe sua mandíbula</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+
+      <div class="card section">
+        <div class="jaw-illustration" aria-hidden="true">
+          <div class="jaw-face"><div class="jaw-mouth"></div></div>
+        </div>
+        <h3 style="text-align:center; font-size:1.1rem;">A posição de descanso</h3>
+        <ul class="checklist">
+          <li><span class="ck">✓</span> Lábios suavemente unidos</li>
+          <li><span class="ck">✓</span> Dentes sem contato entre si</li>
+          <li><span class="ck">✓</span> Língua relaxada, sem pressionar o céu da boca</li>
+          <li><span class="ck">✓</span> Ombros soltos, longe das orelhas</li>
+          <li><span class="ck">✓</span> Respiração tranquila e profunda</li>
+        </ul>
+      </div>
+
+      <div class="info-note section" role="note">
+        <span class="ic" aria-hidden="true">ℹ️</span>
+        <span>Esta orientação é educativa e não trata DTM, bruxismo ou qualquer condição. Em caso de dor ou desconforto persistente, procure um cirurgião-dentista.</span>
+      </div>
+
+      <div class="btn-block-stack">
+        <button class="btn btn-primary" data-nav="respirar">🌬️ Praticar respiração agora</button>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: VOCÊ SABIA ===================== -->
+    <section class="page" data-page="vocesabia" aria-labelledby="fact-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="aprender" aria-label="Voltar">←</button>
+        <h2 id="fact-title">Você sabia?</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+
+      <div class="carousel section" role="list">
+        <div class="fact-card" role="listitem"><p>Você sabia que o estresse pode aumentar a tensão muscular por todo o corpo, incluindo a mandíbula?</p></div>
+        <div class="fact-card" role="listitem"><p>Você sabia que muitas pessoas apertam os dentes durante o dia sem perceber, principalmente enquanto se concentram?</p></div>
+        <div class="fact-card" role="listitem"><p>Você sabia que longos períodos de concentração podem fazer você tensionar a mandíbula e os ombros?</p></div>
+        <div class="fact-card" role="listitem"><p>Você sabia que fazer pausas também faz parte de uma rotina saudável de estudos?</p></div>
+        <div class="fact-card" role="listitem"><p>Dor ou desconforto persistente na mandíbula, rosto ou têmporas merece avaliação profissional.</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: VESTIBULAR SEM TRAVAR ===================== -->
+    <section class="page" data-page="vestibular" aria-labelledby="vest-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="aprender" aria-label="Voltar">←</button>
+        <h2 id="vest-title">Vestibular sem travar</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+      <p class="page-lede section">Toque em cada categoria para ver dicas rápidas e práticas.</p>
+
+      <div class="section" id="vestibular-accordion"></div>
+    </section>
+
+    <!-- ===================== PÁGINA: DIÁRIO ===================== -->
+    <section class="page" data-page="diario" aria-labelledby="diary-title">
+      <span class="eyebrow">Meu bem-estar</span>
+      <h1 id="diary-title" class="page-title">Diário de bem-estar</h1>
+      <p class="page-lede">Registre como você está para acompanhar sua evolução ao longo da semana. Seus dados ficam só nesta sessão do navegador — nada é compartilhado publicamente.</p>
+
+      <div class="card section">
+        <div class="field">
+          <label for="diary-stress">Nível de estresse hoje: <b id="diary-stress-val">5</b>/10</label>
+          <input type="range" min="0" max="10" value="5" id="diary-stress" aria-label="Nível de estresse de 0 a 10">
+        </div>
+
+        <div class="field">
+          <label id="diary-study-label">Tempo aproximado de estudo hoje</label>
+          <div class="chip-row" role="group" aria-labelledby="diary-study-label" id="diary-study-chips">
+            <button class="chip" data-val="Até 2h">Até 2h</button>
+            <button class="chip" data-val="3–4h">3–4h</button>
+            <button class="chip" data-val="5–6h">5–6h</button>
+            <button class="chip" data-val="7–8h">7–8h</button>
+            <button class="chip" data-val="+8h">+8h</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label id="diary-sleep-label">Qualidade do sono</label>
+          <div class="chip-row" role="group" aria-labelledby="diary-sleep-label" id="diary-sleep-chips">
+            <button class="chip" data-val="Ruim">Ruim</button>
+            <button class="chip" data-val="Regular">Regular</button>
+            <button class="chip" data-val="Boa">Boa</button>
+            <button class="chip" data-val="Ótima">Ótima</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label id="diary-jaw-label">Percepção de tensão na mandíbula</label>
+          <div class="chip-row" role="group" aria-labelledby="diary-jaw-label" id="diary-jaw-chips">
+            <button class="chip" data-val="Nenhuma">Nenhuma</button>
+            <button class="chip" data-val="Leve">Leve</button>
+            <button class="chip" data-val="Moderada">Moderada</button>
+            <button class="chip" data-val="Intensa">Intensa</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label id="diary-pain-label">Sentiu dor hoje?</label>
+          <div class="chip-row" role="group" aria-labelledby="diary-pain-label" id="diary-pain-chips">
+            <button class="chip" data-val="Não">Não</button>
+            <button class="chip" data-val="Sim">Sim</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="diary-pauses">Quantas pausas você fez hoje?</label>
+          <input type="number" min="0" max="30" value="0" id="diary-pauses">
+        </div>
+
+        <button class="btn btn-primary" id="diary-save">Salvar no diário</button>
+      </div>
+
+      <div class="chart-wrap section">
+        <h2 class="section-title">Sua evolução (estresse, últimos registros)</h2>
+        <div class="card">
+          <div class="bar-chart" id="diary-chart"></div>
+        </div>
+      </div>
+
+      <div class="entry-list" id="diary-entries"></div>
+    </section>
+
+    <!-- ===================== PÁGINA: UBS ===================== -->
+    <section class="page" data-page="ubs" aria-labelledby="ubs-title">
+      <div class="qz-top">
+        <button class="qz-back" data-nav="inicio" aria-label="Voltar">←</button>
+        <h2 id="ubs-title">Encontre uma UBS perto de você 🏥</h2>
+        <span style="width:28px" aria-hidden="true"></span>
+      </div>
+      <p class="page-lede section">Está com sintomas persistentes ou gostaria de buscar atendimento de saúde? Informe seu CEP ou use sua localização para encontrar serviços de saúde próximos no Google Maps.</p>
+
+      <div class="card section">
+        <div class="ubs-toggle" role="group" aria-label="Forma de busca">
+          <button id="ubs-mode-cep" class="active">Digitar CEP</button>
+          <button id="ubs-mode-loc">Usar minha localização</button>
+        </div>
+
+        <div id="ubs-cep-block">
+          <label for="ubs-cep" class="visually-hidden">Digite seu CEP</label>
+          <input type="text" id="ubs-cep" class="cep-input" placeholder="00000-000" inputmode="numeric" maxlength="9">
+          <button class="btn btn-primary" id="ubs-search-cep">Encontrar UBS próximas</button>
+        </div>
+
+        <div id="ubs-loc-block" style="display:none;">
+          <p style="color:var(--ink-soft); font-size:.92rem;">Vamos pedir permissão para acessar sua localização atual apenas para abrir a busca no Google Maps. Nada é armazenado.</p>
+          <button class="btn btn-primary" id="ubs-search-loc">📍 Usar minha localização</button>
+        </div>
+      </div>
+
+      <div class="card ubs-result-card" id="ubs-result" style="display:none;">
+        <h4>Pronto! Abra a busca real no mapa</h4>
+        <p id="ubs-result-text" style="color:var(--ink-soft); font-size:.92rem;"></p>
+        <a class="btn btn-mint" id="ubs-maps-link" href="#" target="_blank" rel="noopener">📍 Ver no Google Maps</a>
+      </div>
+
+      <div class="info-note safety-note" role="note">
+        <span class="ic" aria-hidden="true">ℹ️</span>
+        <span>As informações de localização têm finalidade de facilitar a busca por serviços de saúde. Não inventamos unidades, endereços ou horários — a busca abre diretamente no Google Maps. Confirme sempre com a unidade os horários e serviços disponíveis.</span>
+      </div>
+    </section>
+
+    <!-- ===================== PÁGINA: SOBRE ===================== -->
+    <section class="page" data-page="sobre" aria-labelledby="about-title">
+      <span class="eyebrow">Sobre o projeto</span>
+      <h1 id="about-title" class="page-title">Desacelera</h1>
+      <p class="page-lede">Cuide da mente. Relaxe a mandíbula. Continue seu caminho.</p>
+
+      <div class="card section about-block">
+        <span class="badge">🎓 Projeto de Apoio ao Empreendedorismo Social — PAES</span>
+        <h3>Universidade Municipal de São Caetano do Sul — USCS</h3>
+        <p style="color:var(--ink-soft);">Este site faz parte de um Projeto de Apoio ao Empreendedorismo Social — PAES desenvolvido no contexto da Universidade Municipal de São Caetano do Sul – USCS. O projeto busca promover educação, conscientização e prevenção relacionadas ao estresse, ao apertamento dentário e a sintomas relacionados à região temporomandibular entre estudantes do 3º ano do Ensino Médio durante o período de preparação para vestibulares e ENEM.</p>
+      </div>
+
+      <div class="card section about-block">
+        <h3>O que este site não faz</h3>
+        <p style="color:var(--ink-soft);">O Desacelera não diagnostica DTM, bruxismo ou qualquer outra condição. O questionário é uma ferramenta educativa e de percepção de sintomas. Informação não substitui avaliação profissional.</p>
+        <p style="color:var(--ink-soft); margin:0;">Estudantes com dor persistente, limitação de movimento, desconforto frequente ou outras alterações devem procurar avaliação de um profissional de saúde.</p>
+      </div>
+
+      <div class="card section about-block">
+        <h3>Privacidade</h3>
+        <p style="color:var(--ink-soft); margin:0;">Não pedimos nome completo, CPF ou outros dados desnecessários. As respostas do diário ficam apenas na sua sessão atual do navegador. A localização só é usada mediante sua autorização, para abrir buscas no Google Maps.</p>
+      </div>
+
+      <div class="btn-block-stack">
+        <button class="btn btn-secondary" data-nav="questionario">📝 Responder o questionário</button>
+      </div>
+    </section>
+
+    </div> <!-- /.page-inner -->
+  </main>
+
+  <!-- ===================== BOTTOM NAV (mobile) ===================== -->
+  <nav class="bottom-nav" aria-label="Navegação principal">
+    <button data-nav="inicio" class="active"><span class="bn-icon" aria-hidden="true">🏠</span>Início</button>
+    <button data-nav="diario"><span class="bn-icon" aria-hidden="true">📊</span>Diário</button>
+    <button data-nav="respirar"><span class="bn-icon" aria-hidden="true">🌬️</span>Respirar</button>
+    <button data-nav="aprender"><span class="bn-icon" aria-hidden="true">✨</span>Aprender</button>
+    <button data-nav="sobre"><span class="bn-icon" aria-hidden="true">ℹ️</span>Sobre</button>
+  </nav>
+
+  <footer class="site-footer">
+    <div><strong>Criado por Milena Borges dos Santos — Odontologia 2026</strong></div>
+    <div>Projeto de Apoio ao Empreendedorismo Social — PAES</div>
+    <div>Universidade Municipal de São Caetano do Sul — USCS</div>
+  </footer>
+
+</div>
+
+<!-- Pause overlay -->
+<div class="pause-overlay" id="pause-overlay" role="alertdialog" aria-labelledby="pause-overlay-title">
+  <div class="pause-overlay-inner">
+    <div class="pe-icon" aria-hidden="true">⏰</div>
+    <h2 id="pause-overlay-title">Hora de uma pausa!</h2>
+    <p>Relaxe os ombros.<br>Afaste os dentes.<br>Deixe a mandíbula descansar.<br>Respire profundamente.</p>
+    <button class="btn btn-primary" id="pause-overlay-close" style="max-width:260px; margin:20px auto 0;">Voltar aos estudos</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ========================= Navigation ========================= */
+const pages = document.querySelectorAll('.page');
+const navButtons = document.querySelectorAll('[data-nav]');
+
+function goTo(pageId){
+  pages.forEach(p => p.classList.toggle('active', p.dataset.page === pageId));
+  document.querySelectorAll('.desktop-nav [data-nav], .bottom-nav [data-nav]').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.nav === pageId);
+  });
+  document.getElementById('main-content').scrollIntoView({behavior:'smooth', block:'start'});
+  if(pageId === 'questionario') startQuiz();
+}
+
+navButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=> goTo(btn.dataset.nav));
+});
+
+/* ========================= Font size control ========================= */
+let fsScale = 1;
+const root = document.documentElement;
+document.getElementById('fs-inc').addEventListener('click', ()=>{
+  fsScale = Math.min(1.35, fsScale + 0.1);
+  root.style.setProperty('--fs-scale', fsScale.toFixed(2));
+});
+document.getElementById('fs-dec').addEventListener('click', ()=>{
+  fsScale = Math.max(0.85, fsScale - 0.1);
+  root.style.setProperty('--fs-scale', fsScale.toFixed(2));
+});
+
+/* ========================= Toast helper ========================= */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 3200);
+}
+
+/* ========================= Home: tension slider + motivational ========================= */
+const tensionSlider = document.getElementById('tension-slider');
+const tensionValue = document.getElementById('tension-value');
+tensionSlider.addEventListener('input', ()=>{ tensionValue.textContent = tensionSlider.value; });
+
+const motivational = [
+  "Você não precisa estudar o tempo todo para estar avançando.",
+  "Respirar também faz parte da preparação.",
+  "Seu corpo também precisa de uma pausa.",
+  "Cada pequeno progresso conta — inclusive descansar.",
+  "Cuidar de você é parte do seu plano de estudos.",
+  "Um minuto de respiração pode render horas de foco depois."
+];
+document.getElementById('home-motivational').textContent = motivational[Math.floor(Math.random()*motivational.length)];
+
+/* ========================= Questionário ========================= */
+const questions = [
+  { q:"Você sente que está passando por um período de estresse ou pressão por causa do vestibular, ENEM ou escolha profissional?", opts:["Não","Pouco","Moderadamente","Muito","Extremamente"] },
+  { q:"Durante os estudos, você percebe que fica apertando ou encostando os dentes com força?", opts:["Nunca","Raramente","Às vezes","Frequentemente","Sempre"] },
+  { q:"Você já acordou percebendo que estava com os dentes apertados ou a mandíbula cansada?", opts:["Nunca","Raramente","Às vezes","Frequentemente","Sempre"] },
+  { q:"Você sente dor ou cansaço na região da mandíbula, rosto ou têmporas durante ou após estudar?", opts:["Nunca","Raramente","Às vezes","Frequentemente","Sempre"], weightKey:true },
+  { q:"Você percebe estalos, crepitações ou algum barulho ao abrir ou fechar a boca?", opts:["Não","Às vezes","Frequentemente","Sempre"] },
+  { q:"Você já sentiu dificuldade ou desconforto para abrir bem a boca, bocejar ou mastigar?", opts:["Nunca","Raramente","Às vezes","Frequentemente","Sempre"], weightKey:true },
+  { q:"Em períodos de maior preocupação com provas ou vestibulares, você percebe aumento da tensão na mandíbula ou do hábito de apertar os dentes?", opts:["Não","Pouco","Moderadamente","Muito","Não sei identificar"] },
+  { q:"Quantas horas por dia, aproximadamente, você passa estudando ou utilizando computador/celular para atividades relacionadas aos estudos?", opts:["Até 2 horas","3–4 horas","5–6 horas","7–8 horas","Mais de 8 horas"] },
+  { q:"Você costuma fazer pausas durante os estudos para relaxar o corpo, alongar-se ou descansar a mandíbula?", opts:["Sempre","Frequentemente","Às vezes","Raramente","Nunca"], reverse:true },
+  { q:"Você gostaria de receber orientações e atividades simples para reduzir a tensão, melhorar seus hábitos de estudo e prevenir problemas relacionados ao apertamento dos dentes?", opts:["Sim","Talvez","Não"] }
+];
+
+let qzIndex = 0;
+let qzAnswers = [];
+
+function startQuiz(){
+  qzIndex = 0;
+  qzAnswers = new Array(questions.length).fill(null);
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const item = questions[qzIndex];
+  document.getElementById('qz-meta').textContent = `Pergunta ${qzIndex+1} de ${questions.length}`;
+  document.getElementById('qz-progress-fill').style.width = `${((qzIndex+1)/questions.length)*100}%`;
+  document.getElementById('qz-question').textContent = item.q;
+  const optWrap = document.getElementById('qz-options');
+  optWrap.innerHTML = '';
+  item.opts.forEach((opt, i)=>{
+    const b = document.createElement('button');
+    b.className = 'option';
+    b.type = 'button';
+    b.textContent = opt;
+    if(qzAnswers[qzIndex] === i) b.classList.add('selected');
+    b.addEventListener('click', ()=>{
+      qzAnswers[qzIndex] = i;
+      // normalized score 0-1 for this question (last option = highest tension), reverse for pause-related question
+      let norm = i / (item.opts.length - 1);
+      if(item.reverse) norm = 1 - norm;
+      qzAnswers.score = qzAnswers.score || {};
+      setTimeout(()=>{
+        if(qzIndex < questions.length - 1){
+          qzIndex++;
+          renderQuestion();
+        } else {
+          computeResult();
+        }
+      }, 180);
+      b.classList.add('selected');
+    });
+    optWrap.appendChild(b);
+  });
+}
+
+function computeResult(){
+  let total = 0, max = 0;
+  let escalate = false;
+  questions.forEach((item, idx)=>{
+    const ans = qzAnswers[idx];
+    if(ans === null || ans === undefined) return;
+    let norm = ans / (item.opts.length - 1);
+    if(item.reverse) norm = 1 - norm;
+    total += norm;
+    max += 1;
+    if(item.weightKey && ans >= item.opts.length - 2){ escalate = true; } // "Frequentemente" or "Sempre"
+  });
+  const pct = max ? (total/max) : 0;
+
+  let level;
+  if(escalate){
+    level = pct > 0.65 ? 'red' : 'orange';
+  } else if(pct <= 0.25){
+    level = 'green';
+  } else if(pct <= 0.5){
+    level = 'yellow';
+  } else if(pct <= 0.75){
+    level = 'orange';
+  } else {
+    level = 'red';
+  }
+
+  const content = {
+    green:{ heading:"Baixa percepção de tensão", message:"Seus hábitos indicam pouca percepção de tensão neste momento. Continue cuidando das suas pausas, sono e bem-estar." },
+    yellow:{ heading:"Fique atento aos seus hábitos", message:"Alguns sinais de tensão foram identificados. Observe se você costuma apertar os dentes ou manter a mandíbula contraída durante os estudos." },
+    orange:{ heading:"Sua tensão merece atenção", message:"Você relatou alguns sinais de tensão ou desconforto. Experimente as atividades de relaxamento e observe a frequência dos sintomas." },
+    red:{ heading:"Procure orientação profissional", message:"Você relatou sintomas frequentes de tensão, dor ou dificuldade de movimentação. O site não realiza diagnóstico. Converse com um cirurgião-dentista para uma avaliação adequada." }
+  };
+
+  const hero = document.getElementById('result-hero');
+  hero.className = 'result-hero section result-' + level;
+  document.getElementById('result-heading').textContent = content[level].heading;
+  document.getElementById('result-message').textContent = content[level].message;
+
+  goTo('resultado');
+}
+
+/* ========================= Respirar ========================= */
+const breatheOuter = document.getElementById('breathe-outer');
+const breatheInner = document.getElementById('breathe-inner');
+const phaseWord = document.getElementById('breathe-phase-word');
+const phaseCount = document.getElementById('breathe-phase-count');
+const remainingEl = document.getElementById('breathe-remaining');
+const startBtn = document.getElementById('breathe-start');
+const stopBtn = document.getElementById('breathe-stop');
+const durButtons = document.querySelectorAll('.breathe-durations button');
+
+let breatheDuration = 60;
+let breatheTotalRemaining = 0;
+let breatheTimer = null;
+let breathePhaseTimer = null;
+let breatheRunning = false;
+
+durButtons.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    if(breatheRunning) return;
+    durButtons.forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    breatheDuration = parseInt(b.dataset.secs, 10);
+  });
+});
+durButtons[0].classList.add('active');
+
+function formatTime(s){
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sec = (s%60).toString().padStart(2,'0');
+  return `${m}:${sec}`;
+}
+
+const phases = [
+  {name:'Inspire', secs:4, cls:'breathe-phase-inhale'},
+  {name:'Segure', secs:2, cls:'breathe-phase-hold'},
+  {name:'Expire', secs:6, cls:'breathe-phase-exhale'}
+];
+let phaseIdx = 0;
+let phaseSecLeft = 0;
+
+function runPhaseTick(){
+  if(!breatheRunning) return;
+  const phase = phases[phaseIdx];
+  phaseWord.textContent = phase.name;
+  phaseCount.textContent = phaseSecLeft;
+  breatheOuter.className = 'breathe-outer ' + phase.cls;
+
+  breathePhaseTimer = setTimeout(()=>{
+    phaseSecLeft--;
+    breatheTotalRemaining--;
+    remainingEl.textContent = 'Tempo restante: ' + formatTime(Math.max(0,breatheTotalRemaining));
+
+    if(breatheTotalRemaining <= 0){
+      endBreathing(true);
+      return;
+    }
+    if(phaseSecLeft <= 0){
+      phaseIdx = (phaseIdx + 1) % phases.length;
+      phaseSecLeft = phases[phaseIdx].secs;
+    }
+    runPhaseTick();
+  }, 1000);
+}
+
+startBtn.addEventListener('click', ()=>{
+  breatheRunning = true;
+  breatheTotalRemaining = breatheDuration;
+  phaseIdx = 0;
+  phaseSecLeft = phases[0].secs;
+  startBtn.style.display = 'none';
+  stopBtn.style.display = 'flex';
+  durButtons.forEach(b=> b.disabled = true);
+  remainingEl.textContent = 'Tempo restante: ' + formatTime(breatheTotalRemaining);
+  runPhaseTick();
+});
+
+stopBtn.addEventListener('click', ()=> endBreathing(false));
+
+function endBreathing(completed){
+  breatheRunning = false;
+  clearTimeout(breathePhaseTimer);
+  breatheOuter.className = 'breathe-outer';
+  phaseWord.textContent = completed ? 'Muito bem!' : 'Pronto?';
+  phaseCount.textContent = completed ? '✓' : '';
+  remainingEl.textContent = completed ? 'Exercício concluído. Como você se sente agora?' : '';
+  startBtn.style.display = 'flex';
+  stopBtn.style.display = 'none';
+  durButtons.forEach(b=> b.disabled = false);
+  if(completed) showToast('Respiração concluída 🌿');
+}
+
+/* ========================= Pausa inteligente ========================= */
+const durationCards = document.querySelectorAll('.duration-card');
+let selectedPauseMins = null;
+durationCards.forEach(c=>{
+  c.addEventListener('click', ()=>{
+    durationCards.forEach(x=>x.classList.remove('selected'));
+    c.classList.add('selected');
+    selectedPauseMins = parseInt(c.dataset.mins,10);
+  });
+});
+
+let pauseInterval = null;
+let pauseEndsAt = null;
+
+document.getElementById('pause-activate').addEventListener('click', ()=>{
+  if(!selectedPauseMins){ showToast('Escolha uma duração primeiro'); return; }
+  clearInterval(pauseInterval);
+  pauseEndsAt = Date.now() + selectedPauseMins*60*1000;
+  document.getElementById('pause-active-box').style.display = 'block';
+  updatePauseCountdown();
+  pauseInterval = setInterval(updatePauseCountdown, 1000);
+  showToast(`Pausa inteligente ativada para ${selectedPauseMins} min`);
+});
+
+function updatePauseCountdown(){
+  const remainMs = pauseEndsAt - Date.now();
+  if(remainMs <= 0){
+    clearInterval(pauseInterval);
+    document.getElementById('pause-active-box').style.display = 'none';
+    document.getElementById('pause-overlay').classList.add('show');
+    return;
+  }
+  const totalSec = Math.ceil(remainMs/1000);
+  const m = Math.floor(totalSec/60).toString().padStart(2,'0');
+  const s = (totalSec%60).toString().padStart(2,'0');
+  document.getElementById('pause-countdown').textContent = `${m}:${s}`;
+}
+
+document.getElementById('pause-cancel').addEventListener('click', ()=>{
+  clearInterval(pauseInterval);
+  document.getElementById('pause-active-box').style.display = 'none';
+  showToast('Pausa inteligente cancelada');
+});
+
+document.getElementById('pause-overlay-close').addEventListener('click', ()=>{
+  document.getElementById('pause-overlay').classList.remove('show');
+});
+
+/* ========================= Vestibular sem travar ========================= */
+const vestibularData = [
+  { icon:'📚', title:'Estudos', tips:['Divida o conteúdo em blocos de 25 a 50 minutos.', 'Alterne matérias para manter o foco.', 'Revise o que aprendeu no dia seguinte, não só na véspera da prova.'] },
+  { icon:'😴', title:'Sono', tips:['Tente manter um horário regular para dormir.', 'Evite telas brilhantes pouco antes de dormir.', 'O sono consolida o que você estudou — ele também é estudo.'] },
+  { icon:'💧', title:'Hidratação', tips:['Mantenha uma garrafa de água por perto durante os estudos.', 'Pausas para beber água também são pausas para respirar.'] },
+  { icon:'🧘', title:'Relaxamento', tips:['Experimente 1 minuto de respiração entre os blocos de estudo.', 'Alongue pescoço e ombros a cada hora.'] },
+  { icon:'🪑', title:'Postura', tips:['Ajuste a altura da cadeira e da tela para os olhos ficarem na horizontal.', 'Apoie os pés no chão e evite curvar os ombros para frente.'] },
+  { icon:'⏰', title:'Pausas', tips:['Use a Pausa Inteligente para lembrar de descansar.', 'Levante-se e caminhe um pouco a cada pausa.'] },
+  { icon:'🦷', title:'Saúde bucal', tips:['Perceba se você aperta os dentes enquanto estuda.', 'Sintomas persistentes merecem avaliação de um dentista.'] }
+];
+
+const vestWrap = document.getElementById('vestibular-accordion');
+vestibularData.forEach((cat, idx)=>{
+  const item = document.createElement('div');
+  item.className = 'accordion-item';
+  item.innerHTML = `
+    <button class="accordion-head" aria-expanded="false">
+      <span class="acc-icon" aria-hidden="true">${cat.icon}</span>
+      <span>${cat.title}</span>
+      <span class="acc-chev" aria-hidden="true">⌄</span>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-body-inner"><ul>${cat.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+    </div>
+  `;
+  const head = item.querySelector('.accordion-head');
+  head.addEventListener('click', ()=>{
+    const isOpen = item.classList.contains('open');
+    item.classList.toggle('open', !isOpen);
+    head.setAttribute('aria-expanded', String(!isOpen));
+  });
+  vestWrap.appendChild(item);
+});
+
+/* ========================= Diário de bem-estar ========================= */
+const diaryStressSlider = document.getElementById('diary-stress');
+const diaryStressVal = document.getElementById('diary-stress-val');
+diaryStressSlider.addEventListener('input', ()=>{ diaryStressVal.textContent = diaryStressSlider.value; });
+
+function wireChipGroup(id){
+  const group = document.getElementById(id);
+  const chips = group.querySelectorAll('.chip');
+  chips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+  });
+  return group;
+}
+wireChipGroup('diary-study-chips');
+wireChipGroup('diary-sleep-chips');
+wireChipGroup('diary-jaw-chips');
+wireChipGroup('diary-pain-chips');
+
+let diaryEntries = [];
+
+function getSelectedChip(id){
+  const sel = document.querySelector(`#${id} .chip.selected`);
+  return sel ? sel.dataset.val : null;
+}
+
+document.getElementById('diary-save').addEventListener('click', ()=>{
+  const entry = {
+    date: new Date(),
+    stress: parseInt(diaryStressSlider.value,10),
+    study: getSelectedChip('diary-study-chips'),
+    sleep: getSelectedChip('diary-sleep-chips'),
+    jaw: getSelectedChip('diary-jaw-chips'),
+    pain: getSelectedChip('diary-pain-chips'),
+    pauses: parseInt(document.getElementById('diary-pauses').value || '0', 10)
+  };
+  diaryEntries.push(entry);
+  if(diaryEntries.length > 14) diaryEntries.shift();
+  renderDiary();
+  showToast('Registro salvo no diário 🌿');
+});
+
+function renderDiary(){
+  const chartWrap = document.getElementById('diary-chart');
+  const listWrap = document.getElementById('diary-entries');
+
+  if(diaryEntries.length === 0){
+    chartWrap.innerHTML = `<div class="empty-state" style="width:100%;"><div class="es-icon">📊</div>Seus registros aparecerão aqui assim que você salvar o primeiro.</div>`;
+    listWrap.innerHTML = '';
+    return;
+  }
+
+  const last7 = diaryEntries.slice(-7);
+  chartWrap.innerHTML = last7.map(e=>{
+    const h = Math.max(6, (e.stress/10)*130);
+    const day = e.date.toLocaleDateString('pt-BR', {weekday:'short'}).replace('.','');
+    return `<div class="bar-col"><div class="bar" style="height:${h}px" title="Estresse ${e.stress}/10"></div><span>${day}</span></div>`;
+  }).join('');
+
+  listWrap.innerHTML = diaryEntries.slice().reverse().map(e=>{
+    const d = e.date.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+    const t = e.date.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    return `<div class="entry-row"><span class="er-date">${d} · ${t}</span><span class="er-stress">Estresse ${e.stress}/10</span></div>`;
+  }).join('');
+}
+renderDiary();
+
+/* ========================= UBS finder ========================= */
+const ubsModeCep = document.getElementById('ubs-mode-cep');
+const ubsModeLoc = document.getElementById('ubs-mode-loc');
+const ubsCepBlock = document.getElementById('ubs-cep-block');
+const ubsLocBlock = document.getElementById('ubs-loc-block');
+
+ubsModeCep.addEventListener('click', ()=>{
+  ubsModeCep.classList.add('active'); ubsModeLoc.classList.remove('active');
+  ubsCepBlock.style.display='block'; ubsLocBlock.style.display='none';
+});
+ubsModeLoc.addEventListener('click', ()=>{
+  ubsModeLoc.classList.add('active'); ubsModeCep.classList.remove('active');
+  ubsLocBlock.style.display='block'; ubsCepBlock.style.display='none';
+});
+
+const ubsCepInput = document.getElementById('ubs-cep');
+ubsCepInput.addEventListener('input', ()=>{
+  let v = ubsCepInput.value.replace(/\D/g,'').slice(0,8);
+  if(v.length > 5) v = v.slice(0,5) + '-' + v.slice(5);
+  ubsCepInput.value = v;
+});
+
+function showUbsResult(query, label){
+  const url = 'https://www.google.com/maps/search/' + encodeURIComponent(query);
+  document.getElementById('ubs-maps-link').href = url;
+  document.getElementById('ubs-result-text').textContent = label;
+  document.getElementById('ubs-result').style.display = 'block';
+  document.getElementById('ubs-result').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+document.getElementById('ubs-search-cep').addEventListener('click', ()=>{
+  const cep = ubsCepInput.value.trim();
+  if(cep.replace(/\D/g,'').length !== 8){ showToast('Digite um CEP válido (8 dígitos)'); return; }
+  showUbsResult(`UBS perto de ${cep}`, `Buscando unidades básicas de saúde reais perto do CEP ${cep} no Google Maps.`);
+});
+
+document.getElementById('ubs-search-loc').addEventListener('click', ()=>{
+  if(!navigator.geolocation){ showToast('Seu navegador não suporta localização'); return; }
+  showToast('Obtendo sua localização...');
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const {latitude, longitude} = pos.coords;
+      const url = `https://www.google.com/maps/search/UBS/@${latitude},${longitude},15z`;
+      document.getElementById('ubs-maps-link').href = url;
+      document.getElementById('ubs-result-text').textContent = 'Buscando unidades básicas de saúde reais perto da sua localização atual no Google Maps.';
+      document.getElementById('ubs-result').style.display = 'block';
+      document.getElementById('ubs-result').scrollIntoView({behavior:'smooth', block:'nearest'});
+    },
+    ()=> showToast('Não foi possível acessar sua localização. Tente digitar o CEP.')
+  );
+});
+
+})();
+</script>
+
+</body>
+</html>
